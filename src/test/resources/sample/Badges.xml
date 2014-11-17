@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<badges>
+  <row Id="1" UserId="2" Name="Autobiographer" Date="2010-07-21T19:08:15.363" />
+  <row Id="2" UserId="3" Name="Autobiographer" Date="2010-07-21T19:08:15.380" />
+  <row Id="3" UserId="5" Name="Autobiographer" Date="2010-07-21T19:08:15.393" />
+  <row Id="4" UserId="6" Name="Autobiographer" Date="2010-07-21T19:08:15.393" />
+  <row Id="5" UserId="17" Name="Autobiographer" Date="2010-07-21T19:18:15.217" />
+  <row Id="6" UserId="28" Name="Autobiographer" Date="2010-07-21T19:18:15.233" />
+  <row Id="7" UserId="26" Name="Autobiographer" Date="2010-07-21T19:23:15.143" />
+  <row Id="8" UserId="34" Name="Autobiographer" Date="2010-07-21T19:23:15.143" />
+  <row Id="9" UserId="38" Name="Autobiographer" Date="2010-07-21T19:23:15.143" />
+  <row Id="10" UserId="40" Name="Autobiographer" Date="2010-07-21T19:33:15.227" />
+  <row Id="11" UserId="53" Name="Autobiographer" Date="2010-07-21T19:38:15.310" />
+  <row Id="12" UserId="20" Name="Teacher" Date="2010-07-21T19:53:15.353" />
+  <row Id="13" UserId="17" Name="Student" Date="2010-07-21T19:53:15.400" />
+  <row Id="14" UserId="28" Name="Student" Date="2010-07-21T19:53:15.430" />
+  <row Id="15" UserId="17" Name="Supporter" Date="2010-07-21T19:53:15.477" />
+  <row Id="16" UserId="20" Name="Supporter" Date="2010-07-21T19:53:15.493" />
+  <row Id="17" UserId="21" Name="Supporter" Date="2010-07-21T19:53:15.493" />
+  <row Id="18" UserId="28" Name="Supporter" Date="2010-07-21T19:58:15.387" />
+</badges>
