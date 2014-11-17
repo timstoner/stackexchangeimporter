@@ -1,6 +1,8 @@
 package com.example.stackexchange.io.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -20,8 +22,7 @@ import com.example.stackexchange.repo.BadgeRepository;
 
 public class BadgeImporterTest {
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(BadgeImporterTest.class);
+	private static final Logger LOG = LoggerFactory.getLogger(BadgeImporterTest.class);
 
 	@Mock
 	private BadgeRepository badgeRepository;
@@ -38,14 +39,14 @@ public class BadgeImporterTest {
 	@Test
 	public void importBadgeFileTest() throws Exception {
 		LOG.info("Running importBadgeFileTest");
-		
+
 		badgeImporter.importBadgeFile("src/test/resources/sample/Badges.xml");
 
-		ArgumentCaptor<Badge> argumentCaptor = ArgumentCaptor
-				.forClass(Badge.class);
+		ArgumentCaptor<Badge> argument = ArgumentCaptor.forClass(Badge.class);
 
-		when(badgeRepository.save(argumentCaptor.capture())).thenReturn(null);
-		List<Badge> badges = argumentCaptor.getAllValues();
+		when(badgeRepository.save(argument.capture())).thenReturn(null);
+		verify(badgeRepository, times(18)).save(argument.capture());
+		List<Badge> badges = argument.getAllValues();
 		assertEquals(18, badges.size());
 
 	}

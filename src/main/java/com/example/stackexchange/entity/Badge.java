@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.solr.client.solrj.beans.Field;
 
 @Entity
@@ -17,37 +18,31 @@ import org.apache.solr.client.solrj.beans.Field;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Badge {
 
+	@Column(name = "site_name")
 	private static String siteName;
 
 	@Id
 	@Column
-	@XmlAttribute
+	@XmlAttribute(name = "Id")
 	private Long Id;
 
 	@Column
-	@XmlAttribute
+	@XmlAttribute(name = "UserId")
 	@Field
 	private Integer UserId;
 
 	@Column
-	@XmlAttribute
+	@XmlAttribute(name = "Name")
 	@Field("name_t")
 	private String Name;
 
 	@Column
-	@XmlAttribute
+	@XmlAttribute(name = "Date")
 	@Field
 	private String Date;
 
 	public Badge() {
 
-	}
-
-	public Badge(Long id, Integer userId, String name, String date) {
-		Id = id;
-		UserId = userId;
-		Name = name;
-		Date = date;
 	}
 
 	public Long getId() {
@@ -85,6 +80,10 @@ public class Badge {
 	@Field("id")
 	public String getSolrId() {
 		return siteName + ":" + Id;
+	}
+
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
 	}
 
 	public static String getSiteName() {

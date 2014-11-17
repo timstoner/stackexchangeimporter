@@ -18,12 +18,9 @@ public class Main {
 	public static void main(String[] args) {
 		LOG.info("Stack Exchange Importer");
 
-		Option dirOption = new Option("d", "dir", true,
-				"folder location of stack exchange data");
-		Option persistOption = new Option("p", "persist", false,
-				"indicates whether to persist data to database");
-		Option solrOption = new Option("i", "index", false,
-				"indicates whether to index data");
+		Option dirOption = new Option("d", "dir", true, "folder location of stack exchange data");
+		Option persistOption = new Option("p", "persist", false, "indicates whether to persist data to database");
+		Option solrOption = new Option("i", "index", false, "indicates whether to index data");
 
 		Options options = new Options();
 		options.addOption(dirOption);
@@ -42,19 +39,18 @@ public class Main {
 		}
 
 		LOG.info("Loading Application Context");
-		ApplicationContext context = new ClassPathXmlApplicationContext(
-				"applicationContext.xml");
+		ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 
-		StackExchangeImporter importer = context.getBean("importer",
-				StackExchangeImporter.class);
+		// StackExchangeImporter importer = context.getBean("importer",
+		// StackExchangeImporter.class);
 
 		boolean index = cmd.hasOption("i");
 		LOG.info("Index: " + index);
-		importer.setIndex(index);
+		// importer.setIndex(index);
 
 		boolean persist = cmd.hasOption("p");
 		LOG.info("Persist: " + persist);
-		importer.setPersist(persist);
+		// importer.setPersist(persist);
 
 		DateTime start = new DateTime();
 
@@ -63,7 +59,7 @@ public class Main {
 		if (directory) {
 			String dir = cmd.getOptionValue("d");
 			LOG.info("Stack Exchange Directory: " + dir);
-			importer.importDirectory(dir);
+			// importer.importDirectory(dir);
 		}
 
 		DateTime end = new DateTime();

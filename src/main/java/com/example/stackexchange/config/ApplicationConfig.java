@@ -19,15 +19,16 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @ComponentScan("com.example.stackexchange")
 @EnableTransactionManagement
+@EnableAsync
 public class ApplicationConfig {
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(ApplicationConfig.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ApplicationConfig.class);
 
 	@Value("#{'${jdbc.driverClassName}'}")
 	private String driverClassName;
@@ -49,8 +50,7 @@ public class ApplicationConfig {
 
 	@Bean
 	public DataSource dataSource() {
-		LOG.info("Building Data Source {} {} {}", driverClassName, url,
-				username);
+		LOG.info("Building Data Source {} {} {}", driverClassName, url, username);
 		BasicDataSource ds = new BasicDataSource();
 		ds.setDriverClassName(driverClassName);
 		ds.setUrl(url);
