@@ -1,68 +1,41 @@
 package com.example.stackexchange.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
-@Table(name = "postlinks")
-public class PostLink {
-
-	@Id
-	@Column
-	private Integer Id;
+// @Table(name = "postlinks")
+@XmlRootElement(name = "row")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class PostLink extends BaseEntity {
 
 	@Column
-	private String CreationDate;
+	@XmlAttribute(name = "CreationDate")
+	private Date creationDate;
 
-	@Column
+	@Transient
+	@XmlAttribute(name = "PostId")
 	private Integer PostId;
 
-	@Column
+	@ManyToOne
+	private Post post;
+
+	@Transient
+	@XmlAttribute(name = "RelatedPostId")
 	private Integer RelatedPostId;
+
+	@ManyToOne
+	private Post relatedPost;
 
 	@Column
 	private Integer LinkType;
-
-	public Integer getId() {
-		return Id;
-	}
-
-	public void setId(Integer id) {
-		Id = id;
-	}
-
-	public String getCreationDate() {
-		return CreationDate;
-	}
-
-	public void setCreationDate(String creationDate) {
-		CreationDate = creationDate;
-	}
-
-	public Integer getPostId() {
-		return PostId;
-	}
-
-	public void setPostId(Integer postId) {
-		PostId = postId;
-	}
-
-	public Integer getRelatedPostId() {
-		return RelatedPostId;
-	}
-
-	public void setRelatedPostId(Integer relatedPostId) {
-		RelatedPostId = relatedPostId;
-	}
-
-	public Integer getLinkType() {
-		return LinkType;
-	}
-
-	public void setLinkType(Integer linkType) {
-		LinkType = linkType;
-	}
 
 }

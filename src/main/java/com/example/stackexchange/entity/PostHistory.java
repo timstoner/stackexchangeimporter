@@ -11,7 +11,7 @@ public class PostHistory {
 
 	@Id
 	@Column
-	private Integer Id;
+	private Long Id;
 
 	@Column
 	private Integer postHistoryTypeId;
@@ -40,11 +40,11 @@ public class PostHistory {
 	@Column
 	private Integer CloseReasonId;
 
-	public Integer getId() {
+	public Long getId() {
 		return Id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		Id = id;
 	}
 

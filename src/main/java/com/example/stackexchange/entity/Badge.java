@@ -2,96 +2,67 @@ package com.example.stackexchange.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.solr.client.solrj.beans.Field;
-
 @Entity
 @Table(name = "badges")
 @XmlRootElement(name = "row")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Badge {
+public class Badge extends BaseEntity {
 
-	@Column(name = "site_name")
-	private static String siteName;
-
-	@Id
-	@Column
-	@XmlAttribute(name = "Id")
-	private Long Id;
-
-	@Column
 	@XmlAttribute(name = "UserId")
-	@Field
-	private Integer UserId;
+	@Transient
+	private Long userId;
 
 	@Column
 	@XmlAttribute(name = "Name")
-	@Field("name_t")
-	private String Name;
+	private String name;
 
 	@Column
 	@XmlAttribute(name = "Date")
-	@Field
-	private String Date;
+	private String date;
 
-	public Badge() {
+	@ManyToOne
+	@JoinColumn(name = "UserId")
+	private User user;
 
+	public Long getUserId() {
+		return userId;
 	}
 
-	public Long getId() {
-		return Id;
-	}
-
-	public void setId(Long id) {
-		Id = id;
-	}
-
-	public Integer getUserId() {
-		return UserId;
-	}
-
-	public void setUserId(Integer userId) {
-		UserId = userId;
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
 	public String getName() {
-		return Name;
+		return name;
 	}
 
 	public void setName(String name) {
-		Name = name;
+		this.name = name;
 	}
 
 	public String getDate() {
-		return Date;
+		return date;
 	}
 
 	public void setDate(String date) {
-		Date = date;
+		this.date = date;
 	}
 
-	@Field("id")
-	public String getSolrId() {
-		return siteName + ":" + Id;
+	public User getUser() {
+		return user;
 	}
 
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
-	}
-
-	public static String getSiteName() {
-		return siteName;
-	}
-
-	public static void setSiteName(String siteName) {
-		Badge.siteName = siteName;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }

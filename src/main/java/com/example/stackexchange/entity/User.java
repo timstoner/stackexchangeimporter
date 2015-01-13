@@ -1,167 +1,191 @@
 package com.example.stackexchange.entity;
 
+import java.util.Date;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @Table(name = "users")
-public class User {
+@XmlRootElement(name = "row")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class User extends BaseEntity {
 
-	@Id
-	@Column
-	private Integer Id;
+	@Column(name = "Reputation")
+	@XmlAttribute(name = "Reputation")
+	private Integer reputation;
 
-	@Column
-	private Integer Reputation;
+	@Column(name = "CreationDate")
+	@XmlAttribute(name = "CreationDate")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date creationDate;
 
-	@Column
-	private String CreationDate;
+	@Column(name = "DisplayName")
+	@XmlAttribute(name = "DisplayName")
+	private String displayName;
 
-	@Column
-	private String DisplayName;
+	@Column(name = "LastAcccessDate")
+	@XmlAttribute(name = "LastAcccessDate")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date lastAcccessDate;
 
-	@Column
-	private String WebsiteUrl;
-
-	@Column(columnDefinition = "TEXT")
-	private String Location;
-
-	@Column(columnDefinition = "TEXT")
-	private String AboutMe;
-
-	@Column
-	private Integer Views;
-
-	@Column
-	private Integer UpVotes;
-
-	@Column
-	private Integer DownVotes;
+	@Column(name = "WebsiteUrl")
+	@XmlAttribute(name = "WebsiteUrl")
+	private String websiteUrl;
 
 	@Column(columnDefinition = "TEXT")
-	private String ProfileImageUrl;
+	@XmlAttribute(name = "Location")
+	private String location;
 
 	@Column(columnDefinition = "TEXT")
-	private String EmailHash;
+	@XmlAttribute(name = "AboutMe")
+	private String aboutMe;
 
-	@Column
-	private Integer Age;
+	@Column(name = "Views")
+	@XmlAttribute(name = "Views")
+	private Integer views;
 
-	@Column
-	private Integer AccountId;
+	@Column(name = "UpVotes")
+	@XmlAttribute(name = "UpVotes")
+	private Integer upVotes;
 
-	public Integer getId() {
-		return Id;
-	}
+	@Column(name = "DownVotes")
+	@XmlAttribute(name = "DownVotes")
+	private Integer downVotes;
 
-	public void setId(Integer id) {
-		Id = id;
-	}
+	@Column(name = "Age")
+	@XmlAttribute(name = "Age")
+	private Integer age;
+
+	@Column(name = "AccountId")
+	@XmlAttribute(name = "AccountId")
+	private Integer accountId;
+
+	@OneToMany
+	private Set<Badge> badges;
+
+	@OneToMany
+	private Set<Post> posts;
 
 	public Integer getReputation() {
-		return Reputation;
+		return reputation;
 	}
 
 	public void setReputation(Integer reputation) {
-		Reputation = reputation;
+		this.reputation = reputation;
 	}
 
-	public String getCreationDate() {
-		return CreationDate;
+	public Date getCreationDate() {
+		return creationDate;
 	}
 
-	public void setCreationDate(String creationDate) {
-		CreationDate = creationDate;
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
 	}
 
 	public String getDisplayName() {
-		return DisplayName;
+		return displayName;
 	}
 
 	public void setDisplayName(String displayName) {
-		DisplayName = displayName;
+		this.displayName = displayName;
+	}
+
+	public Date getLastAcccessDate() {
+		return lastAcccessDate;
+	}
+
+	public void setLastAcccessDate(Date lastAcccessDate) {
+		this.lastAcccessDate = lastAcccessDate;
 	}
 
 	public String getWebsiteUrl() {
-		return WebsiteUrl;
+		return websiteUrl;
 	}
 
 	public void setWebsiteUrl(String websiteUrl) {
-		WebsiteUrl = websiteUrl;
+		this.websiteUrl = websiteUrl;
 	}
 
 	public String getLocation() {
-		return Location;
+		return location;
 	}
 
 	public void setLocation(String location) {
-		Location = location;
+		this.location = location;
 	}
 
 	public String getAboutMe() {
-		return AboutMe;
+		return aboutMe;
 	}
 
 	public void setAboutMe(String aboutMe) {
-		AboutMe = aboutMe;
+		this.aboutMe = aboutMe;
 	}
 
 	public Integer getViews() {
-		return Views;
+		return views;
 	}
 
 	public void setViews(Integer views) {
-		Views = views;
+		this.views = views;
 	}
 
 	public Integer getUpVotes() {
-		return UpVotes;
+		return upVotes;
 	}
 
 	public void setUpVotes(Integer upVotes) {
-		UpVotes = upVotes;
+		this.upVotes = upVotes;
 	}
 
 	public Integer getDownVotes() {
-		return DownVotes;
+		return downVotes;
 	}
 
 	public void setDownVotes(Integer downVotes) {
-		DownVotes = downVotes;
-	}
-
-	public String getProfileImageUrl() {
-		return ProfileImageUrl;
-	}
-
-	public void setProfileImageUrl(String profileImageUrl) {
-		ProfileImageUrl = profileImageUrl;
-	}
-
-	public String getEmailHash() {
-		return EmailHash;
-	}
-
-	public void setEmailHash(String emailHash) {
-		EmailHash = emailHash;
+		this.downVotes = downVotes;
 	}
 
 	public Integer getAge() {
-		return Age;
+		return age;
 	}
 
 	public void setAge(Integer age) {
-		Age = age;
+		this.age = age;
 	}
 
 	public Integer getAccountId() {
-		return AccountId;
+		return accountId;
 	}
 
 	public void setAccountId(Integer accountId) {
-		AccountId = accountId;
+		this.accountId = accountId;
+	}
+
+	public Set<Badge> getBadges() {
+		return badges;
+	}
+
+	public void setBadges(Set<Badge> badges) {
+		this.badges = badges;
+	}
+
+	public Set<Post> getPosts() {
+		return posts;
+	}
+
+	public void setPosts(Set<Post> posts) {
+		this.posts = posts;
 	}
 
 }

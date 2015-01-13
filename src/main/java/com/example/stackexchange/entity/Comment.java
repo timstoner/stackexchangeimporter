@@ -1,79 +1,105 @@
 package com.example.stackexchange.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
-@Table(name = "comments")
-public class Comment {
+// @Table(name = "comments")
+@XmlRootElement(name = "row")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class Comment extends BaseEntity {
 
-	@Id
-	@Column
-	private Long Id;
+	@XmlAttribute(name = "PostId")
+	@Transient
+	private Long postId;
+
+	@ManyToOne
+	private Post post;
 
 	@Column
-	private Integer PostId;
-
-	@Column
-	private Integer Score;
+	@XmlAttribute(name = "Score")
+	private Integer score;
 
 	@Column(columnDefinition = "TEXT")
-	private String Text;
+	@XmlAttribute(name = "Text")
+	private String text;
 
 	@Column
-	private String CreationDate;
+	@XmlAttribute(name = "CreationDate")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date creationDate;
 
-	@Column
-	private Integer UserId;
+	@XmlAttribute(name = "UserId")
+	@Transient
+	private Long userId;
 
-	public Long getId() {
-		return Id;
+	@ManyToOne
+	private User user;
+
+	public Long getPostId() {
+		return postId;
 	}
 
-	public void setId(Long id) {
-		Id = id;
+	public void setPostId(Long postId) {
+		this.postId = postId;
 	}
 
-	public Integer getPostId() {
-		return PostId;
+	public Post getPost() {
+		return post;
 	}
 
-	public void setPostId(Integer postId) {
-		PostId = postId;
+	public void setPost(Post post) {
+		this.post = post;
 	}
 
 	public Integer getScore() {
-		return Score;
+		return score;
 	}
 
 	public void setScore(Integer score) {
-		Score = score;
+		this.score = score;
 	}
 
 	public String getText() {
-		return Text;
+		return text;
 	}
 
 	public void setText(String text) {
-		Text = text;
+		this.text = text;
 	}
 
-	public String getCreationDate() {
-		return CreationDate;
+	public Date getCreationDate() {
+		return creationDate;
 	}
 
-	public void setCreationDate(String creationDate) {
-		CreationDate = creationDate;
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
 	}
 
-	public Integer getUserId() {
-		return UserId;
+	public Long getUserId() {
+		return userId;
 	}
 
-	public void setUserId(Integer userId) {
-		UserId = userId;
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }

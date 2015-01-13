@@ -3,24 +3,18 @@ package com.example.stackexchange.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
-public class PostType {
+@Table(name = "sites")
+public class Site {
 
-	@Id
-	@Column
-	private Long id;
-
-	@Column
+	@Column(name = "Name")
 	private String name;
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
+	@Id
+	@Column(name = "Id")
+	private Long id;
 
 	public String getName() {
 		return name;
@@ -28,5 +22,13 @@ public class PostType {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 }

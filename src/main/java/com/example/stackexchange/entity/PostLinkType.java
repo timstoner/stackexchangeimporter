@@ -3,10 +3,9 @@ package com.example.stackexchange.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 @Entity
-@Table(name = "postlinktypes")
+// @Table(name = "postlinktypes")
 public class PostLinkType {
 
 	@Id

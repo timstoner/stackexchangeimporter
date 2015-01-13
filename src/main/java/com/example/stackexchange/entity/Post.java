@@ -1,244 +1,321 @@
 package com.example.stackexchange.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlAttribute;
 
 @Entity
 @Table(name = "posts")
-public class Post {
+public class Post extends BaseEntity {
 
-	@Id
-	@Column
-	private Long Id;
+	@Transient
+	@XmlAttribute(name = "PostTypeId")
+	private Long postTypeId;
+
+	@ManyToOne
+	private PostType postType;
+
+	@Transient
+	@XmlAttribute(name = "ParentId")
+	private Long parentId;
+
+	@OneToOne
+	@JoinColumn(name = "ParentPostId")
+	private Post parentPost;
+
+	@Transient
+	@XmlAttribute(name = "AcceptedAnswerId")
+	private Long acceptedAnswerId;
+
+	@OneToOne
+	private Post acceptedAnswer;
 
 	@Column
-	private Integer PostTypeId;
+	@XmlAttribute(name = "CreationDate")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date creationDate;
 
 	@Column
-	private Integer ParentId;
+	@XmlAttribute(name = "Score")
+	private Integer score;
 
 	@Column
-	private Integer AcceptedAnswerId;
-
-	@Column
-	private String CreationDate;
-
-	@Column
-	private Integer Score;
-
-	@Column
-	private Integer ViewCount;
+	@XmlAttribute(name = "ViewCount")
+	private Integer viewCount;
 
 	@Column(columnDefinition = "TEXT")
-	private String Body;
+	@XmlAttribute(name = "Body")
+	private String body;
+
+	@Transient
+	@XmlAttribute(name = "Id")
+	private Long ownerUserId;
+
+	@ManyToOne
+	private User ownerUser;
 
 	@Column
-	private Integer OwnerUserId;
+	@XmlAttribute(name = "OwnerDisplayName")
+	private String ownerDisplayName;
+
+	@Transient
+	@XmlAttribute(name = "LastEditorUserId")
+	private Long lastEditorUserId;
+
+	@ManyToOne
+	private User lastEditorUser;
 
 	@Column
-	private String OwnerDisplayName;
+	@XmlAttribute(name = "LastEditorDisplayName")
+	private String lastEditorDisplayName;
 
 	@Column
-	private Integer LastEditorUserId;
+	@XmlAttribute(name = "LastEditDate")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date lastEditDate;
 
 	@Column
-	private String LastEditorDisplayName;
-
-	@Column
-	private String LastEditDate;
-
-	@Column
-	private String LastActivityDate;
+	@XmlAttribute(name = "LastActivityDate")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date lastActivityDate;
 
 	@Column(columnDefinition = "TEXT")
-	private String Title;
+	@XmlAttribute(name = "Title")
+	private String title;
 
 	@Column(columnDefinition = "TEXT")
-	private String Tags;
+	@XmlAttribute(name = "Tags")
+	private String tags;
 
 	@Column
-	private Integer AnswerCount;
+	@XmlAttribute(name = "AnswerCount")
+	private Integer answerCount;
 
 	@Column
-	private Integer CommentCount;
+	@XmlAttribute(name = "CommentCount")
+	private Integer commentCount;
 
 	@Column
-	private Integer FavoriteCount;
+	@XmlAttribute(name = "FavoriteCount")
+	private Integer favoriteCount;
 
 	@Column
-	private String ClosedDate;
+	@XmlAttribute(name = "ClosedDate")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date closedDate;
 
 	@Column
-	private String CommunityOwnedDate;
+	@XmlAttribute(name = "CommunityOwnedDate")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date communityOwnedDate;
 
-	public Long getId() {
-		return Id;
+	public Long getPostTypeId() {
+		return postTypeId;
 	}
 
-	public void setId(Long id) {
-		Id = id;
+	public void setPostTypeId(Long postTypeId) {
+		this.postTypeId = postTypeId;
 	}
 
-	public Integer getPostTypeId() {
-		return PostTypeId;
+	public PostType getPostType() {
+		return postType;
 	}
 
-	public void setPostTypeId(Integer postType) {
-		PostTypeId = postType;
+	public void setPostType(PostType postType) {
+		this.postType = postType;
 	}
 
-	public Integer getAcceptedAnswerId() {
-		return AcceptedAnswerId;
+	public Long getParentId() {
+		return parentId;
 	}
 
-	public void setAcceptedAnswerId(Integer acceptedAnswerId) {
-		AcceptedAnswerId = acceptedAnswerId;
+	public void setParentId(Long parentId) {
+		this.parentId = parentId;
 	}
 
-	public String getCreationDate() {
-		return CreationDate;
+	public Post getParentPost() {
+		return parentPost;
 	}
 
-	public void setCreationDate(String creationDate) {
-		CreationDate = creationDate;
+	public void setParentPost(Post parentPost) {
+		this.parentPost = parentPost;
+	}
+
+	public Long getAcceptedAnswerId() {
+		return acceptedAnswerId;
+	}
+
+	public void setAcceptedAnswerId(Long acceptedAnswerId) {
+		this.acceptedAnswerId = acceptedAnswerId;
+	}
+
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
 	}
 
 	public Integer getScore() {
-		return Score;
+		return score;
 	}
 
 	public void setScore(Integer score) {
-		Score = score;
+		this.score = score;
 	}
 
 	public Integer getViewCount() {
-		return ViewCount;
+		return viewCount;
 	}
 
 	public void setViewCount(Integer viewCount) {
-		ViewCount = viewCount;
+		this.viewCount = viewCount;
 	}
 
 	public String getBody() {
-		return Body;
+		return body;
 	}
 
 	public void setBody(String body) {
-		Body = body;
+		this.body = body;
 	}
 
-	public Integer getOwnerUserId() {
-		return OwnerUserId;
+	public Long getOwnerUserId() {
+		return ownerUserId;
 	}
 
-	public void setOwnerUserId(Integer ownerUserId) {
-		OwnerUserId = ownerUserId;
+	public void setOwnerUserId(Long ownerUserId) {
+		this.ownerUserId = ownerUserId;
+	}
+
+	public User getOwnerUser() {
+		return ownerUser;
+	}
+
+	public void setOwnerUser(User ownerUser) {
+		this.ownerUser = ownerUser;
 	}
 
 	public String getOwnerDisplayName() {
-		return OwnerDisplayName;
+		return ownerDisplayName;
 	}
 
 	public void setOwnerDisplayName(String ownerDisplayName) {
-		OwnerDisplayName = ownerDisplayName;
+		this.ownerDisplayName = ownerDisplayName;
 	}
 
-	public Integer getLastEditorUserId() {
-		return LastEditorUserId;
+	public Long getLastEditorUserId() {
+		return lastEditorUserId;
 	}
 
-	public void setLastEditorUserId(Integer lastEditorUserId) {
-		LastEditorUserId = lastEditorUserId;
+	public void setLastEditorUserId(Long lastEditorUserId) {
+		this.lastEditorUserId = lastEditorUserId;
+	}
+
+	public User getLastEditorUser() {
+		return lastEditorUser;
+	}
+
+	public void setLastEditorUser(User lastEditorUser) {
+		this.lastEditorUser = lastEditorUser;
 	}
 
 	public String getLastEditorDisplayName() {
-		return LastEditorDisplayName;
+		return lastEditorDisplayName;
 	}
 
 	public void setLastEditorDisplayName(String lastEditorDisplayName) {
-		LastEditorDisplayName = lastEditorDisplayName;
+		this.lastEditorDisplayName = lastEditorDisplayName;
 	}
 
-	public String getLastEditDate() {
-		return LastEditDate;
+	public Date getLastEditDate() {
+		return lastEditDate;
 	}
 
-	public void setLastEditDate(String lastEditDate) {
-		LastEditDate = lastEditDate;
+	public void setLastEditDate(Date lastEditDate) {
+		this.lastEditDate = lastEditDate;
 	}
 
-	public String getLastActivityDate() {
-		return LastActivityDate;
+	public Date getLastActivityDate() {
+		return lastActivityDate;
 	}
 
-	public void setLastActivityDate(String lastActivityDate) {
-		LastActivityDate = lastActivityDate;
+	public void setLastActivityDate(Date lastActivityDate) {
+		this.lastActivityDate = lastActivityDate;
 	}
 
 	public String getTitle() {
-		return Title;
+		return title;
 	}
 
 	public void setTitle(String title) {
-		Title = title;
+		this.title = title;
 	}
 
 	public String getTags() {
-		return Tags;
+		return tags;
 	}
 
 	public void setTags(String tags) {
-		Tags = tags;
+		this.tags = tags;
 	}
 
 	public Integer getAnswerCount() {
-		return AnswerCount;
+		return answerCount;
 	}
 
 	public void setAnswerCount(Integer answerCount) {
-		AnswerCount = answerCount;
+		this.answerCount = answerCount;
 	}
 
 	public Integer getCommentCount() {
-		return CommentCount;
+		return commentCount;
 	}
 
 	public void setCommentCount(Integer commentCount) {
-		CommentCount = commentCount;
+		this.commentCount = commentCount;
 	}
 
 	public Integer getFavoriteCount() {
-		return FavoriteCount;
+		return favoriteCount;
 	}
 
 	public void setFavoriteCount(Integer favoriteCount) {
-		FavoriteCount = favoriteCount;
+		this.favoriteCount = favoriteCount;
 	}
 
-	public String getClosedDate() {
-		return ClosedDate;
+	public Date getClosedDate() {
+		return closedDate;
 	}
 
-	public void setClosedDate(String closedDate) {
-		ClosedDate = closedDate;
+	public void setClosedDate(Date closedDate) {
+		this.closedDate = closedDate;
 	}
 
-	public String getCommunityOwnedDate() {
-		return CommunityOwnedDate;
+	public Date getCommunityOwnedDate() {
+		return communityOwnedDate;
 	}
 
-	public void setCommunityOwnedDate(String communityOwnedDate) {
-		CommunityOwnedDate = communityOwnedDate;
+	public void setCommunityOwnedDate(Date communityOwnedDate) {
+		this.communityOwnedDate = communityOwnedDate;
 	}
 
-	public Integer getParentId() {
-		return ParentId;
+	public Post getAcceptedAnswer() {
+		return acceptedAnswer;
 	}
 
-	public void setParentId(Integer parentId) {
-		ParentId = parentId;
+	public void setAcceptedAnswer(Post acceptedAnswer) {
+		this.acceptedAnswer = acceptedAnswer;
 	}
 
 }
