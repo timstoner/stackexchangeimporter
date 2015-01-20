@@ -28,37 +28,38 @@ public abstract class AbstractImporter<T extends BaseEntity, R extends JpaReposi
 	@Value("${dir}")
 	private String dir;
 
+	private String siteName;
+
 	private UnmarshallerPooledObjectFactory factory;
 
-	public AbstractImporter() {
+	public void execute() {
 		JAXBContext jc;
+		Class<T> cl = getC();
 		try {
-			jc = JAXBContext.newInstance(getC());
+			jc = JAXBContext.newInstance(cl);
 			factory = new UnmarshallerPooledObjectFactory(jc);
 		} catch (JAXBException e) {
 			getLogger().warn("Problem creating JAXB context", e);
 		}
-	}
 
-	public void execute() {
-		LOG.info("Importing {} File {}", getFileName(), dir);
+		LOG.info("Importing {}, Folder {}", getFileName(), dir);
 		Path path = Paths.get(dir, getFileName());
 
-		String siteName = getSiteName(path);
+		siteName = getSiteName(path);
 
 		if (Files.exists(path)) {
-			// woah Java 8 Streams API
+			// woah Java 8 Streams API, with lambdas!
 			try (Stream<String> lines = Files.lines(path)) {
-				lines.filter(s -> s.startsWith("  <row")).forEach(s -> parseRow(s, siteName));
+				lines.filter(s -> s.startsWith("  <row")).forEach(s -> parseRow(s));
 			} catch (Exception e) {
-				LOG.warn("Problem reading file " + dir, e);
+				LOG.warn("Problem reading file " + getFileName(), e);
 			}
 		} else {
 			LOG.warn("No {} File found", getFileName());
 		}
 	}
 
-	public void parseRow(String line, String siteName) {
+	public void parseRow(String line) {
 		try {
 			LOG.debug(line);
 			PooledObject<Unmarshaller> pooledObject = factory.makeObject();
@@ -71,7 +72,9 @@ public abstract class AbstractImporter<T extends BaseEntity, R extends JpaReposi
 
 			lookupForeignDependencies(value);
 
-			LOG.debug(value.toString());
+			if (LOG.isDebugEnabled()) {
+				LOG.debug(value.toString());
+			}
 			getRepo().save(value);
 
 			factory.destroyObject(pooledObject);

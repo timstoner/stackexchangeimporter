@@ -12,6 +12,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 @Table(name = "posts")
@@ -36,6 +37,7 @@ public class Post extends BaseEntity {
 	@XmlAttribute(name = "AcceptedAnswerId")
 	private Long acceptedAnswerId;
 
+	@XmlTransient
 	@OneToOne
 	private Post acceptedAnswer;
 
@@ -59,7 +61,7 @@ public class Post extends BaseEntity {
 	@Transient
 	@XmlAttribute(name = "Id")
 	private Long ownerUserId;
-
+	@XmlTransient
 	@ManyToOne
 	private User ownerUser;
 
@@ -70,7 +72,7 @@ public class Post extends BaseEntity {
 	@Transient
 	@XmlAttribute(name = "LastEditorUserId")
 	private Long lastEditorUserId;
-
+	@XmlTransient
 	@ManyToOne
 	private User lastEditorUser;
 

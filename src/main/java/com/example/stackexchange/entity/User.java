@@ -13,12 +13,18 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 @Table(name = "users")
 @XmlRootElement(name = "row")
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlSeeAlso(BaseEntity.class)
 public class User extends BaseEntity {
+
+	@XmlAttribute(name = "Id")
+	public Long userId;
 
 	@Column(name = "Reputation")
 	@XmlAttribute(name = "Reputation")
@@ -70,9 +76,11 @@ public class User extends BaseEntity {
 	@XmlAttribute(name = "AccountId")
 	private Integer accountId;
 
+	@XmlTransient
 	@OneToMany
 	private Set<Badge> badges;
 
+	@XmlTransient
 	@OneToMany
 	private Set<Post> posts;
 

@@ -1,24 +1,22 @@
 package com.example.stackexchange.entity;
 
 import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
+//@XmlRootElement(name = "row")
 @MappedSuperclass
-@XmlRootElement(name = "row")
-@XmlAccessorType(XmlAccessType.FIELD)
 public class BaseEntity {
-
 	@Column(name = "Site")
+	@XmlTransient
 	private String site;
 
 	@Id
 	@Column(name = "Id")
-	@XmlAttribute(name = "Id")
+	@GeneratedValue
+	// @XmlAttribute(name = "Id")
 	private Long id;
 
 	public String getSite() {

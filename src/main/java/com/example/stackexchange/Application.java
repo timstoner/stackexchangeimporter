@@ -4,14 +4,13 @@ import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
-import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import com.example.stackexchange.io.UserImporter;
+
 @SpringBootApplication
-@EnableBatchProcessing
 public class Application {
 	private static Logger LOG = LoggerFactory.getLogger(Application.class);
 
@@ -20,8 +19,11 @@ public class Application {
 
 		DateTime start = new DateTime();
 
-		ConfigurableApplicationContext ctx = SpringApplication.run(Application.class, args);
-		JobLauncher jobLauncher = ctx.getBean(JobLauncher.class);
+		SpringApplication app = new SpringApplication(Application.class);
+		app.setWebEnvironment(false);
+		ConfigurableApplicationContext ctx = app.run(args);
+		UserImporter userImporter = ctx.getBean(UserImporter.class);
+		userImporter.execute();
 
 		DateTime end = new DateTime();
 

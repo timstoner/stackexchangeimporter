@@ -2,8 +2,6 @@ package com.example.stackexchange.io;
 
 import java.io.IOException;
 
-import javax.annotation.PostConstruct;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +23,7 @@ public class Controller {
 	@Autowired
 	private CommentImporter commentImporter;
 
-	@PostConstruct
+	// @PostConstruct
 	public void execute() throws IOException {
 		LOG.info("Starting import");
 

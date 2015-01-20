@@ -10,12 +10,19 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 @Table(name = "badges")
 @XmlRootElement(name = "row")
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlSeeAlso(BaseEntity.class)
 public class Badge extends BaseEntity {
+
+	@XmlAttribute(name = "Id")
+	@Column
+	public Long badgeId;
 
 	@XmlAttribute(name = "UserId")
 	@Transient
@@ -29,6 +36,7 @@ public class Badge extends BaseEntity {
 	@XmlAttribute(name = "Date")
 	private String date;
 
+	@XmlTransient
 	@ManyToOne
 	@JoinColumn(name = "UserId")
 	private User user;
