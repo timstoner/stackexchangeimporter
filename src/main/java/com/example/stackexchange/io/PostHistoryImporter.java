@@ -1,5 +1,7 @@
 package com.example.stackexchange.io;
 
+import java.util.concurrent.ExecutionException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +11,8 @@ import com.example.stackexchange.entity.Post;
 import com.example.stackexchange.entity.PostHistory;
 import com.example.stackexchange.entity.PostHistoryType;
 import com.example.stackexchange.entity.User;
-import com.example.stackexchange.repo.PostHistoryTypeRepository;
-import com.example.stackexchange.repo.PostRepository;
-import com.example.stackexchange.repo.UserRepository;
+import com.example.stackexchange.repo.PostHistoryRepository;
+import com.google.common.cache.LoadingCache;
 
 @Component
 public class PostHistoryImporter extends AbstractImporter<PostHistory, PostHistoryRepository> {
@@ -22,13 +23,13 @@ public class PostHistoryImporter extends AbstractImporter<PostHistory, PostHisto
 	private PostHistoryRepository repo;
 
 	@Autowired
-	private PostHistoryTypeRepository postHistoryTypeRepo;
+	private LoadingCache<Long, PostHistoryType> postHistoryTypeCache;
 
 	@Autowired
-	private UserRepository userRepo;
+	private LoadingCache<Long, User> userCache;
 
 	@Autowired
-	private PostRepository postRepo;
+	private LoadingCache<Long, Post> postCache;
 
 	@Override
 	public Logger getLogger() {
@@ -52,23 +53,37 @@ public class PostHistoryImporter extends AbstractImporter<PostHistory, PostHisto
 
 	@Override
 	public void lookupForeignDependencies(PostHistory t) {
-		Long id = t.getPostHistoryId();
+		Long id = t.getPostHistoryTypeId();
 		if (id != null) {
-			PostHistoryType type = postHistoryTypeRepo.findOne(id);
-			t.setPostHistoryType(type);
+			PostHistoryType type;
+			try {
+				type = postHistoryTypeCache.get(id);
+				t.setPostHistoryType(type);
+			} catch (ExecutionException e) {
+				LOG.debug("Could not get Post History Type", e);
+			}
 		}
 
 		id = t.getUserId();
 		if (id != null) {
-			User user = userRepo.findByUserIdAndSite(id, siteName);
-			t.setUser(user);
+			User user;
+			try {
+				user = userCache.get(id);
+				t.setUser(user);
+			} catch (ExecutionException e) {
+				LOG.debug("Could not get User", e);
+			}
 		}
 
 		id = t.getPostId();
 		if (id != null) {
-			Post post = postRepo.findByPostIdAndSite(id, siteName);
-			t.setPost(post);
+			Post post;
+			try {
+				post = postCache.get(id);
+				t.setPost(post);
+			} catch (ExecutionException e) {
+				LOG.debug("Could not get Post", e);
+			}
 		}
 	}
-
 }

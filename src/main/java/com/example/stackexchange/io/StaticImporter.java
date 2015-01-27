@@ -12,9 +12,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.example.stackexchange.entity.LinkType;
 import com.example.stackexchange.entity.PostHistoryType;
 import com.example.stackexchange.entity.PostType;
 import com.example.stackexchange.entity.VoteType;
+import com.example.stackexchange.repo.LinkTypeRepository;
 import com.example.stackexchange.repo.PostHistoryTypeRepository;
 import com.example.stackexchange.repo.PostTypeRepository;
 import com.example.stackexchange.repo.VoteTypeRepository;
@@ -32,12 +34,16 @@ public class StaticImporter {
 	@Autowired
 	private VoteTypeRepository voteTypeRepository;
 
+	@Autowired
+	private LinkTypeRepository linkTypeRepository;
+
 	public void execute() {
 		LOG.info("Checking static repository");
 
 		persistStaticFile("PostTypes.csv", this::persistPostType);
 		persistStaticFile("PostHistoryTypes.csv", this::persistPostHistoryType);
 		persistStaticFile("VoteTypes.csv", this::persistVoteType);
+		persistStaticFile("LinkTypes.csv", this::persistLinkType);
 	}
 
 	public void persistStaticFile(String filename, Function<String, Void> function) {
@@ -114,6 +120,28 @@ public class StaticImporter {
 			pt.setId(id);
 			pt.setName(name);
 			postHistoryTypeRepository.save(pt);
+		}
+
+		return null;
+	}
+
+	public Void persistLinkType(String line) {
+		LOG.debug(line);
+		String[] fields = line.split(",");
+		long id = Long.parseLong(fields[0]);
+		String name = fields[1];
+
+		LinkType entity = linkTypeRepository.findOne(id);
+		if (entity != null) {
+			if (!entity.getName().equals(name)) {
+				entity.setName(name);
+				voteTypeRepository.flush();
+			}
+		} else {
+			entity = new LinkType();
+			entity.setId(id);
+			entity.setName(name);
+			linkTypeRepository.save(entity);
 		}
 
 		return null;

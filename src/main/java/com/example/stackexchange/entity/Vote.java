@@ -31,7 +31,7 @@ public class Vote extends AbstractEntity {
 
 	@XmlAttribute(name = "VoteTypeId")
 	@Transient
-	private Integer voteTypeId;
+	private Long voteTypeId;
 
 	@ManyToOne
 	@JoinColumn(name = "VoteTypeId")
@@ -70,11 +70,11 @@ public class Vote extends AbstractEntity {
 		this.post = post;
 	}
 
-	public Integer getVoteTypeId() {
+	public Long getVoteTypeId() {
 		return voteTypeId;
 	}
 
-	public void setVoteTypeId(Integer voteTypeId) {
+	public void setVoteTypeId(Long voteTypeId) {
 		this.voteTypeId = voteTypeId;
 	}
 

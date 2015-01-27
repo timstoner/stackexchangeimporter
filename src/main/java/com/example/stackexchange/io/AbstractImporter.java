@@ -4,6 +4,7 @@ import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Stream;
 
 import javax.xml.bind.JAXBContext;
@@ -14,18 +15,18 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.pool2.PooledObject;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.stackexchange.entity.AbstractEntity;
 import com.example.stackexchange.repo.SiteRepository;
+import com.example.stackexchange.util.SiteUtils;
 import com.example.stackexchange.util.UnmarshallerPooledObjectFactory;
 
 public abstract class AbstractImporter<T extends AbstractEntity, R extends JpaRepository<T, String>> {
 
-	private static Logger LOG = LoggerFactory.getLogger(AbstractImporter.class);
+	private static Logger LOG;
 
 	@Value("${dir}")
 	private String dir;
@@ -37,9 +38,13 @@ public abstract class AbstractImporter<T extends AbstractEntity, R extends JpaRe
 
 	protected String siteName;
 
+	private long counter = 0;
+
 	// private Site site;
 
 	public void execute() {
+		LOG = getLogger();
+
 		JAXBContext jc;
 		Class<T> cl = getC();
 		try {
@@ -52,7 +57,7 @@ public abstract class AbstractImporter<T extends AbstractEntity, R extends JpaRe
 		LOG.info("Importing {}, Folder {}", getFileName(), dir);
 		Path path = Paths.get(dir, getFileName());
 
-		siteName = getSiteName(path);
+		siteName = SiteUtils.getSiteName(dir);
 		// cacheSite(siteName);
 
 		if (Files.exists(path)) {
@@ -80,10 +85,12 @@ public abstract class AbstractImporter<T extends AbstractEntity, R extends JpaRe
 
 			lookupForeignDependencies(value);
 
-			if (LOG.isDebugEnabled()) {
-				LOG.debug(value.toString());
-			}
+			counter++;
 			getRepo().save(value);
+
+			if (counter % 1000 == 0) {
+				LOG.info("Counter: {}", counter);
+			}
 
 			factory.destroyObject(pooledObject);
 		} catch (Exception e) {
@@ -99,14 +106,7 @@ public abstract class AbstractImporter<T extends AbstractEntity, R extends JpaRe
 
 	public abstract Class<T> getC();
 
-	public abstract void lookupForeignDependencies(T t);
-
-	protected String getSiteName(Path path) {
-		Path parent = path.getParent();
-
-		Path name = parent.getName(parent.getNameCount() - 1);
-		return name.toString();
-	}
+	public abstract void lookupForeignDependencies(T t) throws ExecutionException;
 
 	// private void cacheSite(String siteName) {
 	// Site temp = siteRepository.findByName(siteName);

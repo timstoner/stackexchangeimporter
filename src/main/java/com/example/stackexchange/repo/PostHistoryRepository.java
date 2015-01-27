@@ -1,4 +1,4 @@
-package com.example.stackexchange.io;
+package com.example.stackexchange.repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

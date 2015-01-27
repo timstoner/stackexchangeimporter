@@ -11,11 +11,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import com.example.stackexchange.io.BadgeImporter;
+import com.example.stackexchange.io.CommentImporter;
 import com.example.stackexchange.io.PostHistoryImporter;
 import com.example.stackexchange.io.PostImporter;
+import com.example.stackexchange.io.PostLinkImporter;
 import com.example.stackexchange.io.StaticImporter;
 import com.example.stackexchange.io.TagImporter;
 import com.example.stackexchange.io.UserImporter;
+import com.example.stackexchange.io.VoteImporter;
 
 @SpringBootApplication
 public class Application {
@@ -35,24 +38,36 @@ public class Application {
 		staticImporter.execute();
 
 		UserImporter userImporter = ctx.getBean(UserImporter.class);
-		LOG.info("Running User Importer");
+		LOG.info("Running Users Importer");
 		userImporter.execute();
 
 		BadgeImporter badgeImporter = ctx.getBean(BadgeImporter.class);
-		LOG.info("Running Badge Importer");
+		LOG.info("Running Badges Importer");
 		badgeImporter.execute();
 
 		PostImporter postImporter = ctx.getBean(PostImporter.class);
-		LOG.info("Running Post Importer");
+		LOG.info("Running Posts Importer");
 		postImporter.execute();
 
 		TagImporter tagImporter = ctx.getBean(TagImporter.class);
-		LOG.info("Running Tag Importer");
+		LOG.info("Running Tags Importer");
 		tagImporter.execute();
 
 		PostHistoryImporter postHistoryImporter = ctx.getBean(PostHistoryImporter.class);
-		LOG.info("Running Post History Importer");
+		LOG.info("Running PostHistorys Importer");
 		postHistoryImporter.execute();
+
+		CommentImporter commentImporter = ctx.getBean(CommentImporter.class);
+		LOG.info("Running Comments Importer");
+		commentImporter.execute();
+
+		VoteImporter voteImporter = ctx.getBean(VoteImporter.class);
+		LOG.info("Running Votes Importer");
+		voteImporter.execute();
+
+		PostLinkImporter postLinkImporter = ctx.getBean(PostLinkImporter.class);
+		LOG.info("Running PostLinks Importer");
+		postLinkImporter.execute();
 
 		DateTime end = new DateTime();
 

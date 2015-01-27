@@ -1,5 +1,7 @@
 package com.example.stackexchange.io;
 
+import java.util.concurrent.ExecutionException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +11,7 @@ import com.example.stackexchange.entity.Post;
 import com.example.stackexchange.entity.PostType;
 import com.example.stackexchange.entity.User;
 import com.example.stackexchange.repo.PostRepository;
-import com.example.stackexchange.repo.PostTypeRepository;
-import com.example.stackexchange.repo.UserRepository;
+import com.google.common.cache.LoadingCache;
 
 @Component
 public class PostImporter extends AbstractImporter<Post, PostRepository> {
@@ -21,10 +22,10 @@ public class PostImporter extends AbstractImporter<Post, PostRepository> {
 	private PostRepository repo;
 
 	@Autowired
-	private UserRepository userRepo;
+	private LoadingCache<Long, User> userCache;
 
 	@Autowired
-	private PostTypeRepository postTypeRepo;
+	private LoadingCache<Long, PostType> postTypeCache;
 
 	@Override
 	public Logger getLogger() {
@@ -47,7 +48,7 @@ public class PostImporter extends AbstractImporter<Post, PostRepository> {
 	}
 
 	@Override
-	public void lookupForeignDependencies(Post t) {
+	public void lookupForeignDependencies(Post t) throws ExecutionException {
 		// Long parentId = t.getParentId();
 		// if (parentId != null) {
 		// Post parentPost = repo.findByParentIdAndSite(parentId, siteName);
@@ -56,7 +57,7 @@ public class PostImporter extends AbstractImporter<Post, PostRepository> {
 
 		Long lastEditorUserId = t.getLastEditorUserId();
 		if (lastEditorUserId != null) {
-			User u = userRepo.findByUserIdAndSite(lastEditorUserId, siteName);
+			User u = userCache.get(lastEditorUserId);
 			t.setLastEditorUser(u);
 		}
 
@@ -68,13 +69,13 @@ public class PostImporter extends AbstractImporter<Post, PostRepository> {
 
 		Long ownerUserId = t.getOwnerUserId();
 		if (ownerUserId != null) {
-			User u = userRepo.findByUserIdAndSite(ownerUserId, siteName);
+			User u = userCache.get(ownerUserId);
 			t.setOwnerUser(u);
 		}
 
 		Long postTypeId = t.getPostTypeId();
 		if (postTypeId != null) {
-			PostType p = postTypeRepo.findOne(postTypeId);
+			PostType p = postTypeCache.get(postTypeId);
 			t.setPostType(p);
 		}
 	}
