@@ -10,12 +10,14 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
 
 @Entity
 // @Table(name = "postlinks")
 @XmlRootElement(name = "row")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class PostLink extends BaseEntity {
+@XmlSeeAlso(AbstractEntity.class)
+public class PostLink extends AbstractEntity {
 
 	@Column
 	@XmlAttribute(name = "CreationDate")

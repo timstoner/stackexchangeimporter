@@ -12,12 +12,17 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
 
 @Entity
-// @Table(name = "comments")
 @XmlRootElement(name = "row")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Comment extends BaseEntity {
+@XmlSeeAlso(AbstractEntity.class)
+public class Comment extends AbstractEntity {
+
+	@Column(name = "CommentId")
+	@XmlAttribute(name = "Id")
+	private Long commentId;
 
 	@XmlAttribute(name = "PostId")
 	@Transient

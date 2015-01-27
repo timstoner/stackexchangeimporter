@@ -4,7 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -14,14 +13,13 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
-@Table(name = "badges")
 @XmlRootElement(name = "row")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlSeeAlso(BaseEntity.class)
-public class Badge extends BaseEntity {
+@XmlSeeAlso(AbstractEntity.class)
+public class Badge extends AbstractEntity {
 
 	@XmlAttribute(name = "Id")
-	@Column
+	@Column(name = "BadgeId")
 	public Long badgeId;
 
 	@XmlAttribute(name = "UserId")

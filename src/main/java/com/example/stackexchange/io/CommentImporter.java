@@ -50,13 +50,13 @@ public class CommentImporter extends AbstractImporter<Comment, CommentRepository
 	public void lookupForeignDependencies(Comment t) {
 		Long postId = t.getPostId();
 		if (postId != null) {
-			Post p = postRepo.findOne(postId);
+			Post p = postRepo.findByPostIdAndSite(postId, siteName);
 			t.setPost(p);
 		}
 
 		Long userId = t.getUserId();
 		if (userId != null) {
-			User u = userRepo.findOne(userId);
+			User u = userRepo.findByUserIdAndSite(userId, siteName);
 			t.setUser(u);
 		}
 	}

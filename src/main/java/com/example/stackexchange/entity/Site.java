@@ -3,10 +3,9 @@ package com.example.stackexchange.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 @Entity
-@Table(name = "sites")
+// @Table(name = "sites")
 public class Site {
 
 	@Column(name = "Name")

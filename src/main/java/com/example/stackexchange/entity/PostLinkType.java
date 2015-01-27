@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-// @Table(name = "postlinktypes")
 public class PostLinkType {
 
 	@Id

@@ -4,20 +4,28 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-import javax.xml.bind.annotation.XmlTransient;
+
+import org.hibernate.annotations.GenericGenerator;
 
 //@XmlRootElement(name = "row")
 @MappedSuperclass
-public class BaseEntity {
+public abstract class AbstractEntity {
+	@Id
+	@GeneratedValue(generator = "uuid2")
+	@GenericGenerator(name = "uuid2", strategy = "uuid2")
+	@Column(name = "Id", unique = true)
+	private String id;
+
 	@Column(name = "Site")
-	@XmlTransient
 	private String site;
 
-	@Id
-	@Column(name = "Id")
-	@GeneratedValue
-	// @XmlAttribute(name = "Id")
-	private Long id;
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public String getSite() {
 		return site;
@@ -25,13 +33,5 @@ public class BaseEntity {
 
 	public void setSite(String site) {
 		this.site = site;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 }

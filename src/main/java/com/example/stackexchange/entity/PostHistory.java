@@ -1,123 +1,157 @@
 package com.example.stackexchange.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
-@Table(name = "posthistory")
-public class PostHistory {
-
-	@Id
-	@Column
-	private Long Id;
+@XmlRootElement(name = "row")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlSeeAlso(AbstractEntity.class)
+public class PostHistory extends AbstractEntity {
 
 	@Column
-	private Integer postHistoryTypeId;
+	@XmlAttribute(name = "Id")
+	private Long postHistoryId;
+
+	@Transient
+	@XmlAttribute(name = "PostHistoryTypeId")
+	private Long postHistoryTypeId;
+
+	@ManyToOne
+	@XmlTransient
+	private PostHistoryType postHistoryType;
+
+	@Transient
+	@XmlAttribute(name = "PostId")
+	private Long postId;
+
+	@ManyToOne
+	@XmlTransient
+	private Post post;
 
 	@Column
-	private Integer PostId;
+	@XmlAttribute(name = "RevisionGUID")
+	private String revisionGUID;
 
 	@Column
-	private String RevisionGUID;
+	@XmlAttribute(name = "CreationDate")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date creationDate;
 
-	@Column
-	private String CreationDate;
+	@Transient
+	@XmlAttribute(name = "UserId")
+	private Long userId;
 
-	@Column
-	private Integer UserId;
-
-	@Column
-	private String UserDisplayName;
+	@ManyToOne
+	@XmlTransient
+	private User user;
 
 	@Column(columnDefinition = "TEXT")
-	private String Comment;
+	@XmlAttribute(name = "Comment")
+	private String comment;
 
 	@Column(columnDefinition = "TEXT")
-	private String Text;
+	@XmlAttribute(name = "Text")
+	private String text;
 
-	@Column
-	private Integer CloseReasonId;
-
-	public Long getId() {
-		return Id;
+	public Long getPostHistoryId() {
+		return postHistoryId;
 	}
 
-	public void setId(Long id) {
-		Id = id;
+	public void setPostHistoryId(Long postHistoryId) {
+		this.postHistoryId = postHistoryId;
 	}
 
-	public Integer getPostHistoryTypeId() {
+	public Long getPostHistoryTypeId() {
 		return postHistoryTypeId;
 	}
 
-	public void setPostHistoryTypeId(Integer postHistoryTypeId) {
+	public void setPostHistoryTypeId(Long postHistoryTypeId) {
 		this.postHistoryTypeId = postHistoryTypeId;
 	}
 
-	public Integer getPostId() {
-		return PostId;
+	public PostHistoryType getPostHistoryType() {
+		return postHistoryType;
 	}
 
-	public void setPostId(Integer postId) {
-		PostId = postId;
+	public void setPostHistoryType(PostHistoryType postHistoryType) {
+		this.postHistoryType = postHistoryType;
+	}
+
+	public Long getPostId() {
+		return postId;
+	}
+
+	public void setPostId(Long postId) {
+		this.postId = postId;
+	}
+
+	public Post getPost() {
+		return post;
+	}
+
+	public void setPost(Post post) {
+		this.post = post;
 	}
 
 	public String getRevisionGUID() {
-		return RevisionGUID;
+		return revisionGUID;
 	}
 
 	public void setRevisionGUID(String revisionGUID) {
-		RevisionGUID = revisionGUID;
+		this.revisionGUID = revisionGUID;
 	}
 
-	public String getCreationDate() {
-		return CreationDate;
+	public Date getCreationDate() {
+		return creationDate;
 	}
 
-	public void setCreationDate(String creationDate) {
-		CreationDate = creationDate;
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
 	}
 
-	public Integer getUserId() {
-		return UserId;
+	public Long getUserId() {
+		return userId;
 	}
 
-	public void setUserId(Integer userId) {
-		UserId = userId;
-	}
-
-	public String getUserDisplayName() {
-		return UserDisplayName;
-	}
-
-	public void setUserDisplayName(String userDisplayName) {
-		UserDisplayName = userDisplayName;
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
 	public String getComment() {
-		return Comment;
+		return comment;
 	}
 
 	public void setComment(String comment) {
-		Comment = comment;
+		this.comment = comment;
 	}
 
 	public String getText() {
-		return Text;
+		return text;
 	}
 
 	public void setText(String text) {
-		Text = text;
+		this.text = text;
 	}
 
-	public Integer getCloseReasonId() {
-		return CloseReasonId;
+	public User getUser() {
+		return user;
 	}
 
-	public void setCloseReasonId(Integer closeReasonId) {
-		CloseReasonId = closeReasonId;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }

@@ -3,24 +3,23 @@ package com.example.stackexchange.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 @Entity
-@Table(name = "votetypes")
+// @Table(name = "votetypes")
 public class VoteType {
 
 	@Id
 	@Column
-	private Integer Id;
+	private Long Id;
 
 	@Column
 	private String Name;
 
-	public Integer getId() {
+	public Long getId() {
 		return Id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		Id = id;
 	}
 

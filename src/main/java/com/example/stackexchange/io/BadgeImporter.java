@@ -46,9 +46,8 @@ public class BadgeImporter extends AbstractImporter<Badge, BadgeRepository> {
 		Long userId = badge.getUserId();
 
 		if (userId != null) {
-			User user = userRepo.findOne(userId);
+			User user = userRepo.findByUserIdAndSite(userId, siteName);
 			badge.setUser(user);
 		}
 	}
-
 }

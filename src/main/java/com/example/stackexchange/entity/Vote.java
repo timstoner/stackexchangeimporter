@@ -6,7 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
@@ -14,12 +13,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
 
 @Entity
-@Table(name = "votes")
 @XmlRootElement(name = "row")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Vote extends BaseEntity {
+@XmlSeeAlso(AbstractEntity.class)
+public class Vote extends AbstractEntity {
 
 	@XmlAttribute(name = "PostId")
 	@Transient
@@ -37,7 +37,7 @@ public class Vote extends BaseEntity {
 	@JoinColumn(name = "VoteTypeId")
 	private VoteType voteType;
 
-	@Column(name = "CreationDate")
+	@Column
 	@XmlAttribute(name = "CreationDate")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date creationDate;
@@ -50,7 +50,7 @@ public class Vote extends BaseEntity {
 	@JoinColumn(name = "UserId")
 	private User user;
 
-	@Column(name = "BountyAmount")
+	@Column
 	@XmlAttribute(name = "BountyAmount")
 	private Integer bountyAmount;
 

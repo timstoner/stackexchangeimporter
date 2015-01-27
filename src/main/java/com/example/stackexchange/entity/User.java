@@ -20,9 +20,10 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "users")
 @XmlRootElement(name = "row")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlSeeAlso(BaseEntity.class)
-public class User extends BaseEntity {
+@XmlSeeAlso(AbstractEntity.class)
+public class User extends AbstractEntity {
 
+	@Column(name = "UserId")
 	@XmlAttribute(name = "Id")
 	public Long userId;
 
@@ -39,8 +40,8 @@ public class User extends BaseEntity {
 	@XmlAttribute(name = "DisplayName")
 	private String displayName;
 
-	@Column(name = "LastAcccessDate")
-	@XmlAttribute(name = "LastAcccessDate")
+	@Column(name = "LastAccessDate")
+	@XmlAttribute(name = "LastAccessDate")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastAcccessDate;
 
@@ -77,11 +78,11 @@ public class User extends BaseEntity {
 	private Integer accountId;
 
 	@XmlTransient
-	@OneToMany
+	@OneToMany(mappedBy = "user")
 	private Set<Badge> badges;
 
 	@XmlTransient
-	@OneToMany
+	@OneToMany(mappedBy = "user")
 	private Set<Post> posts;
 
 	public Integer getReputation() {

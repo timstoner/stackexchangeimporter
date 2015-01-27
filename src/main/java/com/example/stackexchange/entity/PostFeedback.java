@@ -3,10 +3,15 @@ package com.example.stackexchange.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
 
 @Entity
-@Table(name = "postfeedback")
+@XmlRootElement(name = "row")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlSeeAlso(AbstractEntity.class)
 public class PostFeedback {
 
 	@Id

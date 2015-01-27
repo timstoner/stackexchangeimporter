@@ -4,19 +4,26 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
-@Table(name = "posts")
-public class Post extends BaseEntity {
+@XmlRootElement(name = "row")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlSeeAlso(AbstractEntity.class)
+public class Post extends AbstractEntity {
+
+	@Column(name = "PostId")
+	@XmlAttribute(name = "Id")
+	private Long postId;
 
 	@Transient
 	@XmlAttribute(name = "PostTypeId")
@@ -25,21 +32,21 @@ public class Post extends BaseEntity {
 	@ManyToOne
 	private PostType postType;
 
-	@Transient
+	@Column(name = "ParentId")
 	@XmlAttribute(name = "ParentId")
 	private Long parentId;
 
-	@OneToOne
-	@JoinColumn(name = "ParentPostId")
-	private Post parentPost;
+	// @OneToOne
+	// @JoinColumn(name = "ParentPostId")
+	// private Post parentPost;
 
-	@Transient
+	@Column(name = "AcceptedAnswerId")
 	@XmlAttribute(name = "AcceptedAnswerId")
 	private Long acceptedAnswerId;
 
-	@XmlTransient
-	@OneToOne
-	private Post acceptedAnswer;
+	// @XmlTransient
+	// @OneToOne
+	// private Post acceptedAnswer;
 
 	@Column
 	@XmlAttribute(name = "CreationDate")
@@ -61,6 +68,7 @@ public class Post extends BaseEntity {
 	@Transient
 	@XmlAttribute(name = "Id")
 	private Long ownerUserId;
+
 	@XmlTransient
 	@ManyToOne
 	private User ownerUser;
@@ -72,6 +80,7 @@ public class Post extends BaseEntity {
 	@Transient
 	@XmlAttribute(name = "LastEditorUserId")
 	private Long lastEditorUserId;
+
 	@XmlTransient
 	@ManyToOne
 	private User lastEditorUser;
@@ -120,6 +129,10 @@ public class Post extends BaseEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date communityOwnedDate;
 
+	@ManyToOne
+	@XmlTransient
+	private User user;
+
 	public Long getPostTypeId() {
 		return postTypeId;
 	}
@@ -144,13 +157,13 @@ public class Post extends BaseEntity {
 		this.parentId = parentId;
 	}
 
-	public Post getParentPost() {
-		return parentPost;
-	}
-
-	public void setParentPost(Post parentPost) {
-		this.parentPost = parentPost;
-	}
+	// public Post getParentPost() {
+	// return parentPost;
+	// }
+	//
+	// public void setParentPost(Post parentPost) {
+	// this.parentPost = parentPost;
+	// }
 
 	public Long getAcceptedAnswerId() {
 		return acceptedAnswerId;
@@ -312,12 +325,28 @@ public class Post extends BaseEntity {
 		this.communityOwnedDate = communityOwnedDate;
 	}
 
-	public Post getAcceptedAnswer() {
-		return acceptedAnswer;
+	// public Post getAcceptedAnswer() {
+	// return acceptedAnswer;
+	// }
+	//
+	// public void setAcceptedAnswer(Post acceptedAnswer) {
+	// this.acceptedAnswer = acceptedAnswer;
+	// }
+
+	public Long getPostId() {
+		return postId;
 	}
 
-	public void setAcceptedAnswer(Post acceptedAnswer) {
-		this.acceptedAnswer = acceptedAnswer;
+	public void setPostId(Long postId) {
+		this.postId = postId;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }

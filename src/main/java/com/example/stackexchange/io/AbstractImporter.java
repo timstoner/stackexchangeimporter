@@ -15,22 +15,29 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.commons.pool2.PooledObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.stackexchange.entity.BaseEntity;
+import com.example.stackexchange.entity.AbstractEntity;
+import com.example.stackexchange.repo.SiteRepository;
 import com.example.stackexchange.util.UnmarshallerPooledObjectFactory;
 
-public abstract class AbstractImporter<T extends BaseEntity, R extends JpaRepository<T, Long>> {
+public abstract class AbstractImporter<T extends AbstractEntity, R extends JpaRepository<T, String>> {
 
 	private static Logger LOG = LoggerFactory.getLogger(AbstractImporter.class);
 
 	@Value("${dir}")
 	private String dir;
 
-	private String siteName;
-
 	private UnmarshallerPooledObjectFactory factory;
+
+	@Autowired
+	private SiteRepository siteRepository;
+
+	protected String siteName;
+
+	// private Site site;
 
 	public void execute() {
 		JAXBContext jc;
@@ -46,6 +53,7 @@ public abstract class AbstractImporter<T extends BaseEntity, R extends JpaReposi
 		Path path = Paths.get(dir, getFileName());
 
 		siteName = getSiteName(path);
+		// cacheSite(siteName);
 
 		if (Files.exists(path)) {
 			// woah Java 8 Streams API, with lambdas!
@@ -99,4 +107,15 @@ public abstract class AbstractImporter<T extends BaseEntity, R extends JpaReposi
 		Path name = parent.getName(parent.getNameCount() - 1);
 		return name.toString();
 	}
+
+	// private void cacheSite(String siteName) {
+	// Site temp = siteRepository.findByName(siteName);
+	// if (temp == null) {
+	// temp = new Site();
+	// temp.setName(siteName);
+	//
+	// temp = siteRepository.saveAndFlush(temp);
+	// }
+	// site = temp;
+	// }
 }

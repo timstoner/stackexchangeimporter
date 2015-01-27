@@ -48,27 +48,27 @@ public class PostImporter extends AbstractImporter<Post, PostRepository> {
 
 	@Override
 	public void lookupForeignDependencies(Post t) {
-		Long parentId = t.getParentId();
-		if (parentId != null) {
-			Post parentPost = repo.findOne(parentId);
-			t.setParentPost(parentPost);
-		}
+		// Long parentId = t.getParentId();
+		// if (parentId != null) {
+		// Post parentPost = repo.findByParentIdAndSite(parentId, siteName);
+		// t.setParentPost(parentPost);
+		// }
 
 		Long lastEditorUserId = t.getLastEditorUserId();
 		if (lastEditorUserId != null) {
-			User u = userRepo.findOne(lastEditorUserId);
+			User u = userRepo.findByUserIdAndSite(lastEditorUserId, siteName);
 			t.setLastEditorUser(u);
 		}
 
-		Long acceptedAnswerId = t.getAcceptedAnswerId();
-		if (acceptedAnswerId != null) {
-			Post p = repo.findOne(acceptedAnswerId);
-			t.setAcceptedAnswer(p);
-		}
+		// Long acceptedAnswerId = t.getAcceptedAnswerId();
+		// if (acceptedAnswerId != null) {
+		// Post p = repo.findByPostIdAndSite(acceptedAnswerId, siteName);
+		// t.setAcceptedAnswer(p);
+		// }
 
 		Long ownerUserId = t.getOwnerUserId();
 		if (ownerUserId != null) {
-			User u = userRepo.findOne(ownerUserId);
+			User u = userRepo.findByUserIdAndSite(ownerUserId, siteName);
 			t.setOwnerUser(u);
 		}
 
